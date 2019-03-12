@@ -1,4 +1,4 @@
-from django.test import LiveServerTestCase
+from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from selenium import webdriver
 from selenium.common.exceptions import WebDriverException
 from selenium.webdriver.common.keys import Keys
@@ -6,7 +6,7 @@ import time
 
 MAX_WAIT = 10
 
-class NewVisitorTest(LiveServerTestCase):
+class NewVisitorTest(StaticLiveServerTestCase):
 
     def setUp(self):
         self.browser = webdriver.Firefox()
@@ -48,7 +48,7 @@ class NewVisitorTest(LiveServerTestCase):
         # When he hits enter, the page updates, and now  the page lists
         # "1: Write novel premise" as an item in a to-do list
         inputbox.send_keys(Keys.ENTER)
-        self.wait_for_row_in_list_table('1:Write novel premise')
+        self.wait_for_row_in_list_table('1: Write novel premise')
 
         # There is still a text box inviting him to add another item. He 
         # enters "Write novel plotpoints" (Lucas is very methodical)
@@ -57,8 +57,8 @@ class NewVisitorTest(LiveServerTestCase):
         inputbox.send_keys(Keys.ENTER)
 
         # The page updates again, and now shows both items on his list
-        self.wait_for_row_in_list_table('1:Write novel premise')
-        self.wait_for_row_in_list_table('2:Write novel plotpoints')
+        self.wait_for_row_in_list_table('1: Write novel premise')
+        self.wait_for_row_in_list_table('2: Write novel plotpoints')
 
 
         # Satisfied, he goes back to sleep.
@@ -69,7 +69,7 @@ class NewVisitorTest(LiveServerTestCase):
         inputbox = self.browser.find_element_by_id('id_new_item')
         inputbox.send_keys('Buy peacock feathers')
         inputbox.send_keys(Keys.ENTER)
-        self.wait_for_row_in_list_table('1:Buy peacock feathers')
+        self.wait_for_row_in_list_table('1: Buy peacock feathers')
 
         # She notices that her list has a unique URL
         edith_list_url = self.browser.current_url
@@ -94,7 +94,7 @@ class NewVisitorTest(LiveServerTestCase):
         inputbox = self.browser.find_element_by_id('id_new_item')
         inputbox.send_keys('Buy milk')
         inputbox.send_keys(Keys.ENTER)
-        self.wait_for_row_in_list_table('1:Buy milk')
+        self.wait_for_row_in_list_table('1: Buy milk')
 
         # Francis gets his own unique URL
         francis_list_url = self.browser.current_url
